@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "433211360383",
+    "project_id": "mezatsales",
+    "storage_bucket": "mezatsales.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433211360383:android:d3f6864c86176e3b82eb4a",
+        "android_client_info": {
+          "package_name": "com.example.mezatsales"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433211360383-krf9673rgbd3t0bia42a64u7k9nmke7t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mezatsales",
+            "certificate_hash": "91166be966fe1814353dfcf8834e418236764f4f"
+          }
+        },
+        {
+          "client_id": "433211360383-snjt3keo7n72785i02a1hcpeum72l160.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJbsr4zHA3VtRKZ_cmp3VVfOwIWvfS-aY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433211360383-itrqbobjpp1l7i3ogtcq0sot3c7kicua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

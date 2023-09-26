@@ -1,6 +1,8 @@
 package com.example.mezatsales.ui.signup
 
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +30,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.mezatsales.R
 import com.example.mezatsales.ui.Screen
+import com.example.mezatsales.utils.Constant
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
 
 
@@ -42,6 +49,17 @@ fun SignUpScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val state = viewModel.signUpState.collectAsState(initial = null)
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+            val account = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+            try {
+                val result = account.getResult(ApiException::class.java)
+                val credentials = GoogleAuthProvider.getCredential(result.idToken, null)
+                viewModel.googleSignIn(credentials)
+            } catch (it: ApiException) {
+                print(it)
+            }
+        }
 
     Column(
         modifier = Modifier
@@ -134,7 +152,7 @@ fun SignUpScreen(
                     navController.navigate(Screen.LoginScreen.route)
                 },
             text = "Already Have an account? sign In",
-            fontWeight = FontWeight.Bold, color = Color.Black
+            fontWeight = FontWeight.Bold, color = Color.Blue
         )
         Text(
             modifier = Modifier
@@ -150,6 +168,14 @@ fun SignUpScreen(
                 .padding(top = 10.dp), horizontalArrangement = Arrangement.Center
         ) {
             IconButton(onClick = {
+                val gso= GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .requestIdToken(Constant.ServerClient)
+                    .build()
+
+                val googleSingInClient = GoogleSignIn.getClient(context, gso)
+
+                launcher.launch(googleSingInClient.signInIntent)
                 if (state.value?.isSuccess?.isNotEmpty() == true){
                     navController.navigate(Screen.HomeScreen.route)
                 }
@@ -177,7 +203,7 @@ fun SignUpScreen(
     LaunchedEffect(key1 = state.value?.isSuccess) {
         scope.launch {
             if (state.value?.isSuccess?.isNotEmpty() == true) {
-                val success = state.value?.isSuccess
+                navController.navigate(Screen.HomeScreen.route)
             }
         }
     }

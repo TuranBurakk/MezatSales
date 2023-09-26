@@ -3,6 +3,7 @@ package com.example.mezatsales.ui.login.views
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -22,13 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.mezatsales.R
 import com.example.mezatsales.ui.Screen
 import com.example.mezatsales.ui.login.LoginViewModel
@@ -131,9 +131,12 @@ fun LoginScreen(
 
         }
         Text(
-            text = "New User? Sign Up ",
+            text = AnnotatedString("New User? Sign Up "),
             fontWeight = FontWeight.Bold,
-            color = Color.Black,
+            color = Color.Blue,
+            modifier= Modifier.clickable {
+                navController.navigate(Screen.SignUpScreen.route)
+            }
 
         )
         Text(text = "or connect with", fontWeight = FontWeight.Medium, color = Color.Gray)
@@ -148,11 +151,11 @@ fun LoginScreen(
                     .requestEmail()
                     .requestIdToken(ServerClient)
                     .build()
-
                 val googleSingInClient = GoogleSignIn.getClient(context, gso)
-
                 launcher.launch(googleSingInClient.signInIntent)
-
+                if (state.value?.isSuccess?.isNotEmpty() == true){
+                    navController.navigate(Screen.HomeScreen.route)
+                }
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_google),

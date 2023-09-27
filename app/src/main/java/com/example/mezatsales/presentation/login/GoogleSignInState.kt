@@ -1,4 +1,4 @@
-package com.example.mezatsales.ui.login
+package com.example.mezatsales.presentation.login
 
 import com.google.firebase.auth.AuthResult
 

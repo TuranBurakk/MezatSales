@@ -1,4 +1,4 @@
-package com.example.mezatsales.ui.login.views
+package com.example.mezatsales.presentation.login.views
 
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -7,6 +7,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -25,18 +30,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.mezatsales.R
-import com.example.mezatsales.ui.Screen
-import com.example.mezatsales.ui.login.LoginViewModel
+import com.example.mezatsales.presentation.Screen
+import com.example.mezatsales.presentation.login.LoginViewModel
 import com.example.mezatsales.utils.Constant.ServerClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,6 +54,13 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ){
+    //for auto login
+    val auth by lazy { Firebase.auth }
+    val user = auth.currentUser
+    if (user != null){
+        navController.navigate(Screen.HomeScreen.route)
+    }
+
     val googleSignInState = viewModel.googleState.value
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
@@ -64,7 +80,7 @@ fun LoginScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val state = viewModel.signInState.collectAsState(initial = null)
-
+    var showPassword by remember { mutableStateOf(value = false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -90,6 +106,12 @@ fun LoginScreen(
                 focusedIndicatorColor = Color.Transparent
             ), shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
                 Text(text = "Email")
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Email,
+                    contentDescription = "hide_password"
+                )
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -103,8 +125,43 @@ fun LoginScreen(
                 cursorColor = Color.Black,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent
-            ), shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
+            ) ,
+            visualTransformation = if (showPassword) {
+
+                VisualTransformation.None
+
+            } else {
+
+                PasswordVisualTransformation()
+
+            }
+            ,
+            trailingIcon = {
+                if (showPassword) {
+                    IconButton(onClick = { showPassword = false }) {
+                        Icon(
+                            imageVector = Icons.Filled.Visibility,
+                            contentDescription = "hide_password"
+                        )
+                    }
+                } else {
+                    IconButton(
+                        onClick = { showPassword = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.VisibilityOff,
+                            contentDescription = "hide_password"
+                        )
+                    }
+                }
+            } ,
+            shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
                 Text(text = "Password")
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Password,
+                    contentDescription = "hide_password"
+                )
             }
         )
 
@@ -179,7 +236,7 @@ fun LoginScreen(
                 scope.launch {
                     if (state.value?.isSuccess?.isNotEmpty() == true) {
                         val success = state.value?.isSuccess
-                        Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
 
                     }
                 }
@@ -189,7 +246,7 @@ fun LoginScreen(
                 scope.launch {
                     if (state.value?.isError?.isNotEmpty() == true) {
                         val error = state.value?.isError
-                        Toast.makeText(context, "${error}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                     }
                 }
             }

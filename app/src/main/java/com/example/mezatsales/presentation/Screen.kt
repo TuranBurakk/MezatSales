@@ -1,4 +1,4 @@
-package com.example.mezatsales.ui
+package com.example.mezatsales.presentation
 
 sealed class Screen(val route:String) {
 

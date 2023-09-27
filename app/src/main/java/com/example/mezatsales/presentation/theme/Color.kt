@@ -1,4 +1,4 @@
-package com.example.mezatsales.ui.theme
+package com.example.mezatsales.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

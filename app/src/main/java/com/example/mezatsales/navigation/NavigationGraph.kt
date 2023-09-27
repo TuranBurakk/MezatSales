@@ -5,10 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mezatsales.ui.Screen
-import com.example.mezatsales.ui.home.views.HomeScreen
-import com.example.mezatsales.ui.login.views.LoginScreen
-import com.example.mezatsales.ui.signup.SignUpScreen
+import com.example.mezatsales.presentation.Screen
+import com.example.mezatsales.presentation.home.views.HomeScreen
+import com.example.mezatsales.presentation.login.views.LoginScreen
+import com.example.mezatsales.presentation.signup.SignUpScreen
 
 @Composable
 fun NavigationGraph(

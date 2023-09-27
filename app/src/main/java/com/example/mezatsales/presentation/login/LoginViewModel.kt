@@ -1,10 +1,9 @@
-package com.example.mezatsales.ui.login
+package com.example.mezatsales.presentation.login
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.example.mezatsales.data.AuthRepository
 import com.example.mezatsales.utils.Resource
 import com.google.firebase.auth.AuthCredential

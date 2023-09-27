@@ -1,4 +1,4 @@
-package com.example.mezatsales.ui.theme
+package com.example.mezatsales.presentation.theme
 
 import android.app.Activity
 import android.os.Build

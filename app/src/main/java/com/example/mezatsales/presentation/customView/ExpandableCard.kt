@@ -5,9 +5,12 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -21,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Shape
@@ -28,7 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.example.mezatsales.R
@@ -37,6 +40,7 @@ import com.example.mezatsales.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpandableCard(
+    time : String,
     lastPrice: String,
     title: String,
     titleFontSize: TextUnit = MaterialTheme.typography.headlineMedium.fontSize,
@@ -45,8 +49,7 @@ fun ExpandableCard(
     descriptionFontSize: TextUnit = MaterialTheme.typography.titleMedium.fontSize,
     descriptionFontWeight: FontWeight = FontWeight.Normal,
     descriptionMaxLines: Int = 4,
-    shape: Shape = ShapeDefaults.Medium,
-    padding: Dp = 12.dp
+    shape: Shape = ShapeDefaults.Medium
 ) {
     var expandedState by remember { mutableStateOf(false) }
     val rotationState by animateFloatAsState(
@@ -60,32 +63,50 @@ fun ExpandableCard(
                     durationMillis = 300,
                     easing = LinearOutSlowInEasing
                 )
-            ),
+            )
+            .fillMaxWidth(),
         shape = shape,
         onClick = {
             expandedState = !expandedState
         }
     ) {
         Column(
-            modifier = Modifier.align(CenterHorizontally)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Image(painter = painterResource(id = R.drawable.tesbih)
                      ,contentDescription ="item"
 
                 )
+                Column {
+                    Text(text = "Son teklif : ${lastPrice} ")
+                    Text(text = "Süre : ${time}")
+                    Text(
+                        modifier = Modifier.align(CenterHorizontally),
+                        text = title,
+                        fontSize = titleFontSize,
+                        fontWeight = titleFontWeight,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
 
-                Column(Modifier.padding(start = 5.dp)) {
-                    Text(text = "Son teklif : ")
+                }
 
-                    Text(text = lastPrice,
-                        modifier = Modifier.align(CenterHorizontally) )
+
+                Row(Modifier.padding(start = 5.dp)
+                    , horizontalArrangement = Arrangement.End) {
+
                     IconButton(
                         modifier = Modifier
                             .rotate(rotationState)
-                            .align(CenterHorizontally),
+                            .align(CenterVertically)
+                            .wrapContentWidth(Alignment.End)
+
+                            ,
                         onClick = {
                             expandedState = !expandedState
                         }) {
@@ -98,20 +119,14 @@ fun ExpandableCard(
 
             }
             if (expandedState) {
-                Text(
-                    modifier = Modifier.align(CenterHorizontally),
-                    text = title,
-                    fontSize = titleFontSize,
-                    fontWeight = titleFontWeight,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+
                 Text(
                     text = description,
                     fontSize = descriptionFontSize,
                     fontWeight = descriptionFontWeight,
                     maxLines = descriptionMaxLines,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.align(CenterHorizontally)
                 )
             }
         }
@@ -124,6 +139,7 @@ fun ExpandableCard(
 @Preview
 fun ExpandableCardPreview() {
     ExpandableCard(
+        time = "24 saat",
         lastPrice = "100",
         title = "My Title",
         description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +

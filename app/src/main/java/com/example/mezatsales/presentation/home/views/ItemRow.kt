@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.mezatsales.data.ItemData
 import com.example.mezatsales.presentation.customView.ExpandableCard
 
 
 @Composable
-fun ItemRow(){
+fun ItemRow(
+    item : ItemData,
+    onItemClick:(ItemData)-> Unit
+){
 
     Row(
         Modifier
@@ -21,19 +24,10 @@ fun ItemRow(){
         Box(
             Modifier.padding(start = 5.dp)
         ) {
-            ExpandableCard(lastPrice = "100",title = "test", description ="deneme" )
+            ExpandableCard(time = item.time.toString(),item.price.toString(),title = item.name.toString(),
+                description =item.description.toString())
 
         }
-        Box(
-            Modifier.padding(start = 5.dp)
-        ) {
-            ExpandableCard(lastPrice = "100",title = "test", description ="deneme" )
-
-        }    }
+        }
 }
 
-@Preview
-@Composable
-fun PreviewItemRow(){
-    ItemRow()
-}

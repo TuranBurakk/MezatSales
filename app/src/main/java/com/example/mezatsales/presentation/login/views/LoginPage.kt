@@ -44,8 +44,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,12 +52,9 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ){
-    //for auto login
-    val auth by lazy { Firebase.auth }
-    val user = auth.currentUser
-    if (user != null){
-        navController.navigate(Screen.HomeScreen.route)
-    }
+
+    //for autologin
+    viewModel.checkUser(navController)
 
     val googleSignInState = viewModel.googleState.value
     val launcher =

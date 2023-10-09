@@ -1,6 +1,5 @@
 package com.example.mezatsales.presentation.home.views
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,13 +29,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.mezatsales.presentation.Screen
+import com.example.mezatsales.presentation.home.HomeViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = hiltViewModel()
+){
     var showMenu by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+    val auth by lazy { Firebase.auth }
+    val state = viewModel.itemState.value
+
 
     Column(
         Modifier
@@ -47,7 +56,7 @@ fun HomeScreen(){
     ) {
 
         Box(Modifier.fillMaxWidth()) {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { navController.navigate(Screen.ProfilScreen.route) }) {
                 Icon(imageVector = Icons.Filled.Person,
                      contentDescription = "Profile")
             }
@@ -71,21 +80,22 @@ fun HomeScreen(){
                 ) {
                     DropdownMenuItem(
                         text = {
-                            Text("Refresh")
+                            Text("Mağazam", color = Color.White)
                         },
                         onClick = { /* TODO */ },
                     )
                     DropdownMenuItem(
                         text = {
-                            Text("Settings")
+                            Text("Profil", color = Color.White)
                         },
-                        onClick = { /* TODO */ },
+                        onClick = { navController.navigate(Screen.ProfilScreen.route) },
                     )
                     DropdownMenuItem(
                         text = {
-                            Text("About")
+                            Text("Çıkış yap", color = Color.White)
                         },
-                        onClick = { /* TODO */ },
+                        onClick = {auth.signOut()
+                                   navController.navigate(Screen.LoginScreen.route)},
                     )
                 }
             }
@@ -118,7 +128,7 @@ fun HomeScreen(){
                 when(item){
                     "Tesbih"->{
                         Button(onClick = {
-                            Toast.makeText(context,item, Toast.LENGTH_LONG).show()
+                            viewModel.filterCategory(item)
                         },
                             shape = RoundedCornerShape(15.dp),
                             ) {
@@ -127,7 +137,7 @@ fun HomeScreen(){
                     }
                     "Retro"->{
                         Button(onClick = {
-                            Toast.makeText(context,item, Toast.LENGTH_LONG).show()
+                            viewModel.filterCategory(item)
                         },
                             modifier = Modifier.padding(start = 5.dp),
                             shape = RoundedCornerShape(15.dp)) {
@@ -136,7 +146,7 @@ fun HomeScreen(){
                     }
                     "Sanat"->{
                         Button(onClick = {
-                            Toast.makeText(context,item, Toast.LENGTH_LONG).show()
+                            viewModel.filterCategory(item)
                         },
                             modifier = Modifier.padding(start = 5.dp),
                             shape = RoundedCornerShape(15.dp)) {
@@ -145,7 +155,7 @@ fun HomeScreen(){
                     }
                     "Antika"->{
                         Button(onClick = {
-                            Toast.makeText(context,item, Toast.LENGTH_LONG).show()
+                            viewModel.filterCategory(item)
                         },
                             modifier = Modifier.padding(start = 5.dp),
                             shape = RoundedCornerShape(15.dp)) {
@@ -157,17 +167,14 @@ fun HomeScreen(){
             })
         }
         LazyColumn(content = {
-            item {
-                ItemRow()
+            items(state.item){item ->
+                ItemRow(item = item,
+                    onItemClick = {
+
+                    })
             }
         })
 
     }
 
-}
-
-@Preview
-@Composable
-fun previewLoginScreen(){
-    HomeScreen()
 }

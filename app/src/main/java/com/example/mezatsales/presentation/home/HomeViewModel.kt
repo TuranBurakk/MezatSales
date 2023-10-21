@@ -45,6 +45,14 @@ class HomeViewModel
             }
     }
     fun filterCategory(category : String){
+    if (category == "todo"){
+        getItem()
+
+
+    }else{
         _itemState.value = ItemState(item = itemList.filter { it.category == category })
+    }
+
+
     }
 }

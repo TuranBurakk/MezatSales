@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.mezatsales.data.ItemData
 import com.example.mezatsales.presentation.customView.ExpandableCard
 
@@ -14,7 +15,7 @@ import com.example.mezatsales.presentation.customView.ExpandableCard
 @Composable
 fun ItemRow(
     item : ItemData,
-    onItemClick:(ItemData)-> Unit
+    navController: NavController
 ){
 
     Row(
@@ -24,7 +25,7 @@ fun ItemRow(
         Box(
             Modifier.padding(start = 5.dp)
         ) {
-            ExpandableCard(time = item.time.toString(),item.price.toString(),title = item.name.toString(),
+            ExpandableCard(navController,time = item.time.toString(),item.price.toString(),title = item.name.toString(),
                 description =item.description.toString())
 
         }

@@ -15,6 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,12 +35,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.mezatsales.R
+import com.example.mezatsales.presentation.Screen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpandableCard(
+    navController: NavController,
     time : String,
     lastPrice: String,
     title: String,
@@ -51,6 +56,7 @@ fun ExpandableCard(
     descriptionMaxLines: Int = 4,
     shape: Shape = ShapeDefaults.Medium
 ) {
+
     var expandedState by remember { mutableStateOf(false) }
     val rotationState by animateFloatAsState(
         targetValue = if (expandedState) 180f else 0f, label = ""
@@ -64,10 +70,15 @@ fun ExpandableCard(
                     easing = LinearOutSlowInEasing
                 )
             )
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            ,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondary
+        )
+        ,
         shape = shape,
         onClick = {
-            expandedState = !expandedState
+            navController.navigate(Screen.ItemDetailScreen.route)
         }
     ) {
         Column(
@@ -83,8 +94,8 @@ fun ExpandableCard(
 
                 )
                 Column {
-                    Text(text = "Son teklif : ${lastPrice} ")
-                    Text(text = "Süre : ${time}")
+                    Text(text = "PRECİO : ${lastPrice} ")
+                    Text(text = "DIRECCIÓN : ${time}")
                     Text(
                         modifier = Modifier.align(CenterHorizontally),
                         text = title,
@@ -135,16 +146,3 @@ fun ExpandableCard(
 
 
 
-@Composable
-@Preview
-fun ExpandableCardPreview() {
-    ExpandableCard(
-        time = "24 saat",
-        lastPrice = "100",
-        title = "My Title",
-        description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                "ullamco laboris nisi ut aliquip ex ea commodo consequat."
-    )
-}

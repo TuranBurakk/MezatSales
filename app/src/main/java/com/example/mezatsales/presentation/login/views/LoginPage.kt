@@ -3,6 +3,7 @@ package com.example.mezatsales.presentation.login.views
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +19,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -39,6 +41,7 @@ import androidx.navigation.NavController
 import com.example.mezatsales.R
 import com.example.mezatsales.presentation.Screen
 import com.example.mezatsales.presentation.login.LoginViewModel
+import com.example.mezatsales.presentation.theme.TextColor
 import com.example.mezatsales.utils.Constant.ServerClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -79,14 +82,16 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 30.dp, end = 30.dp),
-        verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
+            .background(MaterialTheme.colorScheme.surface),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Enter your credential's to register",
+            text = "Enter your credentials to register",
             fontWeight = FontWeight.Medium,
             fontSize = 15.sp,
-            color = Color.Gray,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(bottom = 5.dp)
 
         )
         TextField(
@@ -94,13 +99,14 @@ fun LoginScreen(
             onValueChange = {
                 email = it
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().
+            padding(start = 10.dp, end = 10.dp),
             colors = TextFieldDefaults.textFieldColors(
-                cursorColor = Color.Black,
-                 unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent
+                containerColor = MaterialTheme.colorScheme.primary,
+                 unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                focusedIndicatorColor = MaterialTheme.colorScheme.primary
             ), shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
-                Text(text = "Email")
+                Text(text = "Email", color = MaterialTheme.colorScheme.onSurface)
             },
             leadingIcon = {
                 Icon(
@@ -115,9 +121,10 @@ fun LoginScreen(
             onValueChange = {
                 password = it
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().
+            padding(start = 10.dp, end = 10.dp),
             colors = TextFieldDefaults.textFieldColors(
-                cursorColor = Color.Black,
+                containerColor = MaterialTheme.colorScheme.primary,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent
             ) ,
@@ -150,7 +157,7 @@ fun LoginScreen(
                 }
             } ,
             shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
-                Text(text = "Password")
+                Text(text = "Password", color = MaterialTheme.colorScheme.onSurface)
             },
             leadingIcon = {
                 Icon(
@@ -161,20 +168,25 @@ fun LoginScreen(
         )
 
         Button(
-            onClick = {
+            onClick ={
                 scope.launch {
                     viewModel.loginUser(email, password)
                 }
-            },
+            }
+           ,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp, start = 30.dp, end = 30.dp),
+                .padding(top = 20.dp, start = 30.dp, end = 30.dp)
+
+            ,
             colors = ButtonDefaults.buttonColors(
-                contentColor = Color.White
+                containerColor = MaterialTheme.colorScheme.primary
             ),
             shape = RoundedCornerShape(15.dp)
-        ) {
-            Text(text = "Sign In", color = Color.White, modifier = Modifier.padding(7.dp))
+
+
+        ){
+            Text(text = "Login", color = MaterialTheme.colorScheme.onSurface)
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             if (state.value?.isLoading == true) {
@@ -183,15 +195,17 @@ fun LoginScreen(
 
         }
         Text(
-            text = AnnotatedString("New User? Sign Up "),
+            text = AnnotatedString("New user? Register"),
             fontWeight = FontWeight.Bold,
-            color = Color.Blue,
-            modifier= Modifier.clickable {
-                navController.navigate(Screen.SignUpScreen.route)
-            }
+            color = MaterialTheme.colorScheme.primary,
+            modifier= Modifier
+                .padding(top = 30.dp)
+                .clickable {
+                    navController.navigate(Screen.SignUpScreen.route)
+                }
 
         )
-        Text(text = "or connect with", fontWeight = FontWeight.Medium, color = Color.Gray)
+        Text(text = "or connect with", fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurface)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -249,7 +263,7 @@ fun LoginScreen(
             LaunchedEffect(key1 = googleSignInState.success) {
                 scope.launch {
                     if (googleSignInState.success != null) {
-                        Toast.makeText(context, "Sign In Success", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Iniciar sesión con éxito", Toast.LENGTH_LONG).show()
                         navController.navigate(Screen.HomeScreen.route)
                     }
                 }

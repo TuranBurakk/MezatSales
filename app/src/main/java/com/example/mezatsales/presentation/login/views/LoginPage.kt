@@ -1,17 +1,25 @@
-package com.example.mezatsales.ui.login.views
+package com.example.mezatsales.presentation.login.views
 
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -22,16 +30,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.mezatsales.R
-import com.example.mezatsales.ui.Screen
-import com.example.mezatsales.ui.login.LoginViewModel
+import com.example.mezatsales.presentation.Screen
+import com.example.mezatsales.presentation.login.LoginViewModel
+import com.example.mezatsales.presentation.theme.TextColor
 import com.example.mezatsales.utils.Constant.ServerClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -45,6 +55,10 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ){
+
+    //for autologin
+    viewModel.checkUser(navController)
+
     val googleSignInState = viewModel.googleState.value
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
@@ -64,18 +78,20 @@ fun LoginScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val state = viewModel.signInState.collectAsState(initial = null)
-
+    var showPassword by remember { mutableStateOf(value = false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 30.dp, end = 30.dp),
-        verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
+            .background(MaterialTheme.colorScheme.surface),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Enter your credential's to register",
+            text = "Enter your credentials to register",
             fontWeight = FontWeight.Medium,
             fontSize = 15.sp,
-            color = Color.Gray,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(bottom = 5.dp)
 
         )
         TextField(
@@ -83,13 +99,20 @@ fun LoginScreen(
             onValueChange = {
                 email = it
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().
+            padding(start = 10.dp, end = 10.dp),
             colors = TextFieldDefaults.textFieldColors(
-                cursorColor = Color.Black,
-                 unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent
+                containerColor = MaterialTheme.colorScheme.primary,
+                 unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                focusedIndicatorColor = MaterialTheme.colorScheme.primary
             ), shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
-                Text(text = "Email")
+                Text(text = "Email", color = MaterialTheme.colorScheme.onSurface)
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Email,
+                    contentDescription = "hide_password"
+                )
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -98,31 +121,72 @@ fun LoginScreen(
             onValueChange = {
                 password = it
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().
+            padding(start = 10.dp, end = 10.dp),
             colors = TextFieldDefaults.textFieldColors(
-                cursorColor = Color.Black,
+                containerColor = MaterialTheme.colorScheme.primary,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent
-            ), shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
-                Text(text = "Password")
+            ) ,
+            visualTransformation = if (showPassword) {
+
+                VisualTransformation.None
+
+            } else {
+
+                PasswordVisualTransformation()
+
+            }
+            ,
+            trailingIcon = {
+                if (showPassword) {
+                    IconButton(onClick = { showPassword = false }) {
+                        Icon(
+                            imageVector = Icons.Filled.Visibility,
+                            contentDescription = "hide_password"
+                        )
+                    }
+                } else {
+                    IconButton(
+                        onClick = { showPassword = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.VisibilityOff,
+                            contentDescription = "hide_password"
+                        )
+                    }
+                }
+            } ,
+            shape = RoundedCornerShape(8.dp), singleLine = true, placeholder = {
+                Text(text = "Password", color = MaterialTheme.colorScheme.onSurface)
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Password,
+                    contentDescription = "hide_password"
+                )
             }
         )
 
         Button(
-            onClick = {
+            onClick ={
                 scope.launch {
                     viewModel.loginUser(email, password)
                 }
-            },
+            }
+           ,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp, start = 30.dp, end = 30.dp),
+                .padding(top = 20.dp, start = 30.dp, end = 30.dp)
+
+            ,
             colors = ButtonDefaults.buttonColors(
-                contentColor = Color.White
+                containerColor = MaterialTheme.colorScheme.primary
             ),
             shape = RoundedCornerShape(15.dp)
-        ) {
-            Text(text = "Sign In", color = Color.White, modifier = Modifier.padding(7.dp))
+
+
+        ){
+            Text(text = "Login", color = MaterialTheme.colorScheme.onSurface)
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             if (state.value?.isLoading == true) {
@@ -131,12 +195,17 @@ fun LoginScreen(
 
         }
         Text(
-            text = "New User? Sign Up ",
+            text = AnnotatedString("New user? Register"),
             fontWeight = FontWeight.Bold,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.primary,
+            modifier= Modifier
+                .padding(top = 30.dp)
+                .clickable {
+                    navController.navigate(Screen.SignUpScreen.route)
+                }
 
         )
-        Text(text = "or connect with", fontWeight = FontWeight.Medium, color = Color.Gray)
+        Text(text = "or connect with", fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurface)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -148,11 +217,11 @@ fun LoginScreen(
                     .requestEmail()
                     .requestIdToken(ServerClient)
                     .build()
-
                 val googleSingInClient = GoogleSignIn.getClient(context, gso)
-
                 launcher.launch(googleSingInClient.signInIntent)
-
+                if (state.value?.isSuccess?.isNotEmpty() == true){
+                    navController.navigate(Screen.HomeScreen.route)
+                }
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_google),
@@ -176,7 +245,7 @@ fun LoginScreen(
                 scope.launch {
                     if (state.value?.isSuccess?.isNotEmpty() == true) {
                         val success = state.value?.isSuccess
-                        Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
 
                     }
                 }
@@ -186,7 +255,7 @@ fun LoginScreen(
                 scope.launch {
                     if (state.value?.isError?.isNotEmpty() == true) {
                         val error = state.value?.isError
-                        Toast.makeText(context, "${error}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -194,7 +263,7 @@ fun LoginScreen(
             LaunchedEffect(key1 = googleSignInState.success) {
                 scope.launch {
                     if (googleSignInState.success != null) {
-                        Toast.makeText(context, "Sign In Success", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Iniciar sesión con éxito", Toast.LENGTH_LONG).show()
                         navController.navigate(Screen.HomeScreen.route)
                     }
                 }

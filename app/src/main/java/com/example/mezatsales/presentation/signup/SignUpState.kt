@@ -1,6 +1,6 @@
-package com.example.mezatsales.ui.login
+package com.example.mezatsales.presentation.signup
 
-data class SignInState(
+data class SignUpState(
     val isLoading: Boolean = false,
     val isSuccess: String? = "",
     val isError: String? = ""

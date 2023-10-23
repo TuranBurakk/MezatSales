@@ -1,6 +1,5 @@
 package com.example.mezatsales.presentation.topBar
 
-import android.content.res.Resources.Theme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,12 +7,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,12 +21,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mezatsales.presentation.Screen
-import com.example.mezatsales.presentation.theme.AccentColor
-import com.example.mezatsales.presentation.theme.Background
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -42,7 +38,7 @@ fun topBar(
         IconButton(onClick = { navController.navigate(Screen.ProfilScreen.route) }) {
             Icon(imageVector = Icons.Filled.Person,
                 contentDescription = "Profile",
-                tint = AccentColor
+                tint = MaterialTheme.colorScheme.onSurface
             )
         }
 
@@ -53,7 +49,7 @@ fun topBar(
                 .padding(end = 10.dp)) {
             Icon(imageVector = Icons.Filled.Menu,contentDescription = "Menu",
                 modifier = Modifier.align(Alignment.CenterEnd),
-                tint = AccentColor)
+                tint = MaterialTheme.colorScheme.onSurface)
         }
         Box(modifier = Modifier.align(Alignment.BottomEnd)
         ){
@@ -61,26 +57,26 @@ fun topBar(
                 expanded = showMenu,
                 onDismissRequest = { showMenu = false },
                 modifier = Modifier
-                    .background(Background)
+                    .background(MaterialTheme.colorScheme.background)
 
             ) {
-                DropdownMenuItem(text = { Text(text = "Anasayfa", color = Color.White) }
+                DropdownMenuItem(text = { Text(text = "Anasayfa", color = MaterialTheme.colorScheme.onSurface) }
                     , onClick = { navController.navigate(Screen.HomeScreen.route) })
                 DropdownMenuItem(
                     text = {
-                        Text("Mağazam", color = Color.White)
+                        Text("Mağazam", color = MaterialTheme.colorScheme.onSurface)
                     },
                     onClick = {  },
                 )
                 DropdownMenuItem(
                     text = {
-                        Text("Profil", color = Color.White)
+                        Text("Profil", color = MaterialTheme.colorScheme.onSurface)
                     },
                     onClick = { navController.navigate(Screen.ProfilScreen.route) },
                 )
                 DropdownMenuItem(
                     text = {
-                        Text("Çıkış yap", color = Color.White)
+                        Text("Çıkış yap", color = MaterialTheme.colorScheme.onSurface)
                     },
                     onClick = {auth.signOut()
                         navController.navigate(Screen.LoginScreen.route)},
@@ -91,7 +87,7 @@ fun topBar(
 
     }
     Divider(
-        color = AccentColor,
+        color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier.fillMaxWidth()
     )
 }

@@ -25,7 +25,7 @@ fun ItemRow(
         Box(
             Modifier.padding(start = 5.dp)
         ) {
-            ExpandableCard(navController,time = item.time.toString(),item.price.toString(),title = item.name.toString(),
+            ExpandableCard(navController, address = item.Address.toString(),item.price.toString(),title = item.name.toString(),
                 description =item.description.toString())
 
         }

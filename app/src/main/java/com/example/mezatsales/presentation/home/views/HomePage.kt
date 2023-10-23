@@ -11,19 +11,15 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.mezatsales.presentation.Screen
 import com.example.mezatsales.presentation.home.HomeViewModel
-import com.example.mezatsales.presentation.theme.Background
 import com.example.mezatsales.presentation.topBar.topBar
 
 @Composable
@@ -52,7 +48,7 @@ fun HomeScreen(
             .padding(top = 10.dp),
             Alignment.Center
         ){
-            Text(text = "categorias"
+            Text(text = "categories"
                 , color = MaterialTheme.colorScheme.onSurface)
 
         }
@@ -63,19 +59,20 @@ fun HomeScreen(
             verticalAlignment = Alignment.CenterVertically,
         )
         {
-            val list = listOf("vehículo","electrónico","muebles","todo")
+            val list = listOf("all","vehicle","electronic","furniture")
             items(list, itemContent = {item->
                 when(item){
-                    "vehículo"->{
+                    "vehicle"->{
                         Button(onClick = {
                             viewModel.filterCategory(item)
                         },
+                            modifier = Modifier.padding(start = 5.dp),
                             shape = RoundedCornerShape(15.dp),
                             ) {
                             Text(text = item, color = MaterialTheme.colorScheme.onSurface)
                         }
                     }
-                    "electrónico"->{
+                    "electronic"->{
                         Button(onClick = {
                             viewModel.filterCategory(item)
                         },
@@ -84,7 +81,7 @@ fun HomeScreen(
                             Text(text = item, color = MaterialTheme.colorScheme.onSurface)
                         }
                     }
-                    "muebles"->{
+                    "furniture"->{
                         Button(onClick = {
                             viewModel.filterCategory(item)
                         },
@@ -93,7 +90,7 @@ fun HomeScreen(
                             Text(text = item, color = MaterialTheme.colorScheme.onSurface)
                         }
                     }
-                    "todo"->{
+                    "all"->{
                         Button(onClick = {
                             viewModel.filterCategory(item)
                         },

@@ -32,11 +32,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.mezatsales.R
 import com.example.mezatsales.presentation.Screen
 
@@ -45,7 +43,7 @@ import com.example.mezatsales.presentation.Screen
 @Composable
 fun ExpandableCard(
     navController: NavController,
-    time : String,
+    address : String,
     lastPrice: String,
     title: String,
     titleFontSize: TextUnit = MaterialTheme.typography.headlineMedium.fontSize,
@@ -94,15 +92,16 @@ fun ExpandableCard(
 
                 )
                 Column {
-                    Text(text = "PRECİO : ${lastPrice} ")
-                    Text(text = "DIRECCIÓN : ${time}")
+                    Text(text = "Price : ${lastPrice} ", color = MaterialTheme.colorScheme.onSurface)
+                    Text(text = "ADDRESS : ${address}", color = MaterialTheme.colorScheme.onSurface)
                     Text(
                         modifier = Modifier.align(CenterHorizontally),
                         text = title,
                         fontSize = titleFontSize,
                         fontWeight = titleFontWeight,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                 }
@@ -137,7 +136,8 @@ fun ExpandableCard(
                     fontWeight = descriptionFontWeight,
                     maxLines = descriptionMaxLines,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.align(CenterHorizontally)
+                    modifier = Modifier.align(CenterHorizontally),
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

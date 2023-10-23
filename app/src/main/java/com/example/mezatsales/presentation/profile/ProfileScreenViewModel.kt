@@ -1,22 +1,24 @@
-package com.example.mezatsales.presentation.home
+package com.example.mezatsales.presentation.profile
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.mezatsales.data.ItemData
 import com.example.mezatsales.data.UserData
+import com.example.mezatsales.presentation.home.ItemState
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel
-    @Inject constructor():ViewModel() {
+class ProfileScreenViewModel @Inject constructor():ViewModel() {
 
     private val _itemState = mutableStateOf(ItemState())
     val itemState : State<ItemState> = _itemState
 
+    private val user by lazy { FirebaseAuth.getInstance() }
     private val db by lazy { FirebaseFirestore.getInstance() }
     private val itemList = mutableListOf<ItemData>()
 
@@ -25,7 +27,7 @@ class HomeViewModel
     }
 
     private fun getItem(){
-        db.collection("user").document("items").get()
+        db.collection("user").document(user.currentUser!!.uid).get()
             .addOnSuccessListener {documentSnapshot ->
                 val saleItems = documentSnapshot.toObject<UserData>()
                 if (saleItems != null) {
@@ -43,16 +45,5 @@ class HomeViewModel
                 }
 
             }
-    }
-    fun filterCategory(category : String){
-    if (category == "todo"){
-        getItem()
-
-
-    }else{
-        _itemState.value = ItemState(item = itemList.filter { it.category == category })
-    }
-
-
     }
 }

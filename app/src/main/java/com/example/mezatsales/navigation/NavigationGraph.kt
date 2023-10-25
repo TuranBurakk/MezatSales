@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mezatsales.data.ItemData
 import com.example.mezatsales.presentation.Screen
 import com.example.mezatsales.presentation.home.views.HomeScreen
 import com.example.mezatsales.presentation.itemDetail.itemDetailScreen
@@ -37,7 +38,11 @@ fun NavigationGraph(
         }
 
         composable(route = Screen.ItemDetailScreen.route){
-            itemDetailScreen(navController)
+           val result = navController.previousBackStackEntry?.savedStateHandle?.get<ItemData>("item")
+
+            if (result != null) {
+                itemDetailScreen(navController,result)
+            }
         }
     }
 

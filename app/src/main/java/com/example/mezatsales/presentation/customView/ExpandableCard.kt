@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mezatsales.R
+import com.example.mezatsales.data.ItemData
 import com.example.mezatsales.presentation.Screen
 
 
@@ -46,6 +47,7 @@ fun ExpandableCard(
     address : String,
     lastPrice: String,
     title: String,
+    category:String,
     titleFontSize: TextUnit = MaterialTheme.typography.headlineMedium.fontSize,
     titleFontWeight: FontWeight = FontWeight.Bold,
     description: String,
@@ -76,7 +78,14 @@ fun ExpandableCard(
         ,
         shape = shape,
         onClick = {
+            val item = ItemData(address,lastPrice,category,title,description)
+            navController.currentBackStackEntry?.savedStateHandle?.set(
+                key = "item",
+                value = item
+            )
             navController.navigate(Screen.ItemDetailScreen.route)
+
+
         }
     ) {
         Column(

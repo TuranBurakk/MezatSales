@@ -26,7 +26,7 @@ fun ItemRow(
             Modifier.padding(start = 5.dp)
         ) {
             ExpandableCard(navController, address = item.Address.toString(),item.price.toString(),title = item.name.toString(),
-                description =item.description.toString())
+                description =item.description.toString(), category = item.category.toString())
 
         }
         }

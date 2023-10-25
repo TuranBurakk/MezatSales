@@ -8,5 +8,5 @@ sealed class Screen(val route:String) {
 
     object ProfilScreen : Screen("profil_screen")
 
-    object ItemDetailScreen : Screen("detail_screen")
+    object ItemDetailScreen : Screen("detail_screen/{item}")
 }

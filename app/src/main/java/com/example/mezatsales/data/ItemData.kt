@@ -8,7 +8,7 @@ data class ItemData(
     val Address : String?,
     val price : String?,
     val category : String?,
-    val name : String?,
+    var name : String?,
     val description : String?
 ):Parcelable{
     constructor() : this(null,null,null,null,null)

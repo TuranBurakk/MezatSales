@@ -1,6 +1,7 @@
 package com.example.mezatsales.presentation.profile.views
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.mezatsales.presentation.Screen
 import com.example.mezatsales.presentation.home.views.ItemRow
 import com.example.mezatsales.presentation.profile.ProfileScreenViewModel
 import com.example.mezatsales.presentation.topBar.topBar
@@ -49,6 +51,9 @@ fun ProfileScreen(
             }
         })
 
+        Text(text = "Sell", modifier = Modifier.clickable {
+            navController.navigate(Screen.AddItemScreen.route)
+        })
     }
 
 }

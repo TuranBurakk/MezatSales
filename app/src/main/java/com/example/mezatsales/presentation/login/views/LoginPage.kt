@@ -41,7 +41,6 @@ import androidx.navigation.NavController
 import com.example.mezatsales.R
 import com.example.mezatsales.presentation.Screen
 import com.example.mezatsales.presentation.login.LoginViewModel
-import com.example.mezatsales.presentation.theme.TextColor
 import com.example.mezatsales.utils.Constant.ServerClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -263,7 +262,7 @@ fun LoginScreen(
             LaunchedEffect(key1 = googleSignInState.success) {
                 scope.launch {
                     if (googleSignInState.success != null) {
-                        Toast.makeText(context, "Iniciar sesión con éxito", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Log in successfully", Toast.LENGTH_LONG).show()
                         navController.navigate(Screen.HomeScreen.route)
                     }
                 }

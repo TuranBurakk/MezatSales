@@ -1,5 +1,6 @@
 package com.example.mezatsales.presentation.home.views
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,8 +26,11 @@ fun ItemRow(
         Box(
             Modifier.padding(start = 5.dp)
         ) {
-            ExpandableCard(navController, address = item.Address.toString(),item.price.toString(),title = item.name.toString(),
-                description =item.description.toString(), category = item.category.toString())
+            item.imageUri?.let {
+                ExpandableCard(navController, address = item.Address.toString(),item.price.toString(),title = item.name.toString(),
+                    description =item.description.toString(), category = item.category.toString(), image = it.toString()
+                )
+            }
 
         }
         }

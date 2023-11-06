@@ -4,14 +4,12 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Card
@@ -22,25 +20,30 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.mezatsales.R
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mezatsales.data.ItemData
 import com.example.mezatsales.presentation.Screen
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun ExpandableCard(
     navController: NavController,
@@ -48,6 +51,7 @@ fun ExpandableCard(
     lastPrice: String,
     title: String,
     category:String,
+    image: String,
     titleFontSize: TextUnit = MaterialTheme.typography.headlineMedium.fontSize,
     titleFontWeight: FontWeight = FontWeight.Bold,
     description: String,
@@ -78,7 +82,8 @@ fun ExpandableCard(
         ,
         shape = shape,
         onClick = {
-            val item = ItemData(address,lastPrice,category,title,description)
+
+            val item = ItemData(address,lastPrice,category,title,description,image)
             navController.currentBackStackEntry?.savedStateHandle?.set(
                 key = "item",
                 value = item
@@ -96,10 +101,17 @@ fun ExpandableCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Image(painter = painterResource(id = R.drawable.tesbih)
-                     ,contentDescription ="item"
 
-                )
+
+
+                GlideImage(model = image,
+                            contentDescription ="image",
+                            contentScale = ContentScale.Inside
+                        )
+
+
+
+
                 Column {
                     Text(text = "Price : ${lastPrice} ", color = MaterialTheme.colorScheme.onSurface)
                     Text(text = "ADDRESS : ${address}", color = MaterialTheme.colorScheme.onSurface)

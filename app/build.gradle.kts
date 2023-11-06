@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
     implementation("com.google.firebase:firebase-firestore-ktx:24.8.1")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
     testImplementation("junit:junit:4.13.2")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -92,4 +93,6 @@ dependencies {
     implementation ("androidx.work:work-runtime-ktx:2.8.1")
 
     implementation ("androidx.compose.material:material-icons-extended:1.3.1")
+
+    implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
 }

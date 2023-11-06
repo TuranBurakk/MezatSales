@@ -1,5 +1,6 @@
 package com.example.mezatsales.presentation.profile
 
+import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -32,14 +33,15 @@ class ProfileScreenViewModel @Inject constructor():ViewModel() {
                 val saleItems = documentSnapshot.toObject<UserData>()
                 if (saleItems != null) {
                     itemList.clear()
-                    for (item in saleItems!!.salesItem) {
-                        val name = item.name
-                        val description = item.description
-                        val category = item.category
-                        val price = item.price
-                        val time = item.Address
-                        val item = ItemData(time,price, category, name, description)
-                        itemList.add(item)
+                    saleItems.salesItem?.forEach { item ->
+                        val name = item?.name
+                        val description = item?.description
+                        val category = item?.category
+                        val price = item?.price
+                        val time = item?.Address
+                        val uri = item?.imageUri
+                        val item1 = ItemData(time,price, category, name, description,uri)
+                        itemList.add(item1)
                     }
                     _itemState.value = ItemState(item = itemList)
                 }

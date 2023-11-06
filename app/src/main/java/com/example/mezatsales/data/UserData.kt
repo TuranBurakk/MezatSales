@@ -5,8 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class UserData(
-    val userName: String? = null,
-    val salesItem : List<ItemData> = emptyList()
+    var userName: String? = "",
+    var salesItem : List<ItemData?>? = emptyList()
 ): Parcelable {
 
 }

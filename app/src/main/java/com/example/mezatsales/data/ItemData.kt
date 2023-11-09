@@ -1,15 +1,15 @@
 package com.example.mezatsales.data
 
+import android.net.Uri
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ItemData(
-    val Address : String?,
-    val price : String?,
-    val category : String?,
-    val name : String?,
-    val description : String?
-):Parcelable{
-    constructor() : this(null,null,null,null,null)
-}
+    var Address : String? = null,
+    var price : String? = null,
+    var category : String? = null,
+    var name : String? = null,
+    var description : String? = null,
+    var imageUri : String? = null
+):Parcelable

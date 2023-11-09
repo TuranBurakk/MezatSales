@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mezatsales.data.ItemData
 import com.example.mezatsales.presentation.Screen
+import com.example.mezatsales.presentation.addItem.view.AddItemScreen
 import com.example.mezatsales.presentation.home.views.HomeScreen
 import com.example.mezatsales.presentation.itemDetail.itemDetailScreen
 import com.example.mezatsales.presentation.login.views.LoginScreen
@@ -43,6 +44,9 @@ fun NavigationGraph(
             if (result != null) {
                 itemDetailScreen(navController,result)
             }
+        }
+        composable(route = Screen.AddItemScreen.route){
+            AddItemScreen(navController = navController)
         }
     }
 

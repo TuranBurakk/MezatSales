@@ -66,7 +66,7 @@ fun topBar(
                     text = {
                         Text("Mağazam", color = MaterialTheme.colorScheme.onSurface)
                     },
-                    onClick = {  },
+                    onClick = { navController.navigate(Screen.ProfilScreen.route) },
                 )
                 DropdownMenuItem(
                     text = {

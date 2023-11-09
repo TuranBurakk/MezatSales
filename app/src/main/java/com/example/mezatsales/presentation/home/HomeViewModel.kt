@@ -30,13 +30,14 @@ class HomeViewModel
                 val saleItems = documentSnapshot.toObject<UserData>()
                 if (saleItems != null) {
                     itemList.clear()
-                    for (item in saleItems!!.salesItem) {
-                        val name = item.name
-                        val description = item.description
-                        val category = item.category
-                        val price = item.price
-                        val time = item.Address
-                        val item = ItemData(time,price, category, name, description)
+                    for (item in saleItems?.salesItem ?: emptyList()) {
+                        val name = item?.name
+                        val description = item?.description
+                        val category = item?.category
+                        val price = item?.price
+                        val time = item?.Address
+                        val uri = item?.imageUri
+                        val item = ItemData(time,price, category, name, description,uri)
                         itemList.add(item)
                     }
                     _itemState.value = ItemState(item = itemList)
@@ -45,14 +46,10 @@ class HomeViewModel
             }
     }
     fun filterCategory(category : String){
-    if (category == "todo"){
+    if (category == "all"){
         getItem()
-
-
     }else{
         _itemState.value = ItemState(item = itemList.filter { it.category == category })
     }
-
-
     }
 }

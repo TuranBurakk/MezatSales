@@ -11,4 +11,6 @@ sealed class Screen(val route:String) {
     object ItemDetailScreen : Screen("detail_screen/{item}")
 
     object AddItemScreen : Screen("add_item")
+
+    object MessageScreen : Screen("message_screen")
 }

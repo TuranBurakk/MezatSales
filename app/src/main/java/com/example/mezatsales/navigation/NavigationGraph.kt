@@ -11,6 +11,7 @@ import com.example.mezatsales.presentation.addItem.view.AddItemScreen
 import com.example.mezatsales.presentation.home.views.HomeScreen
 import com.example.mezatsales.presentation.itemDetail.itemDetailScreen
 import com.example.mezatsales.presentation.login.views.LoginScreen
+import com.example.mezatsales.presentation.message.views.MessageScreen
 import com.example.mezatsales.presentation.profile.views.ProfileScreen
 import com.example.mezatsales.presentation.signup.SignUpScreen
 
@@ -47,6 +48,9 @@ fun NavigationGraph(
         }
         composable(route = Screen.AddItemScreen.route){
             AddItemScreen(navController = navController)
+        }
+        composable(route = Screen.MessageScreen.route){
+            MessageScreen(navController = navController)
         }
     }
 

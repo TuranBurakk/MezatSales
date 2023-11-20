@@ -1,14 +1,14 @@
 package com.example.mezatsales.presentation.customView
 
+import android.text.Html
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,7 +35,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.mezatsales.R
 import com.example.mezatsales.data.ItemData
 import com.example.mezatsales.presentation.Screen
 
@@ -100,20 +101,19 @@ fun ExpandableCard(
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Row(
-                verticalAlignment = CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
 
                 GlideImage(model = image,
                         contentDescription ="image",
-                        contentScale = ContentScale.Inside)
+                    modifier = Modifier.fillMaxWidth())
 
-                Column {
-                    Text(text = "Price : ${lastPrice} ", color = MaterialTheme.colorScheme.onSurface)
-                    Text(text = "ADDRESS : ${address}", color = MaterialTheme.colorScheme.onSurface)
-                    Text(
+
+            Text(text = getBoldText(text = R.string.Price, text2 = lastPrice ),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.align(CenterHorizontally))
+            Text(text = stringResource(id = R.string.Address,address),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.align(CenterHorizontally))
+            Text(
                         modifier = Modifier.align(CenterHorizontally),
                         text = title,
                         fontSize = titleFontSize,
@@ -121,9 +121,9 @@ fun ExpandableCard(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         color = MaterialTheme.colorScheme.onSurface
-                    )
+            )
 
-                }
+
 
 
                 Row(Modifier.padding(start = 5.dp)
@@ -146,7 +146,7 @@ fun ExpandableCard(
                     }
                 }
 
-            }
+
             if (expandedState) {
 
                 Text(
@@ -161,6 +161,12 @@ fun ExpandableCard(
             }
         }
     }
+}
+
+@Composable
+fun getBoldText(text:Int,text2:String):String{
+    val bold = stringResource(id = text)
+    return "${ Html.fromHtml(bold)} $text2"
 }
 
 

@@ -29,11 +29,12 @@ class AddItemViewModel @Inject constructor():ViewModel() {
             ).addOnSuccessListener {
                 storage.getReference("images/").child("images").child("${uuid}.jpeg").downloadUrl.addOnSuccessListener {
                     item.imageUri = it.toString()
+
+                }.addOnSuccessListener {
+                    db.collection("user").document(user.currentUser!!.uid).update("salesItem",FieldValue.arrayUnion(item))
+                    db.collection("user").document("items").update("salesItem",FieldValue.arrayUnion(item))
                 }
-        }.addOnSuccessListener {
-                db.collection("user").document(user.currentUser!!.uid).update("salesItem",FieldValue.arrayUnion(item))
-                db.collection("user").document("items").update("salesItem",FieldValue.arrayUnion(item))
-            }
+        }
     }
         }
 

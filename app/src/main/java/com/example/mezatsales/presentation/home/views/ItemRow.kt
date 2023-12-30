@@ -23,11 +23,11 @@ fun ItemRow(
             .fillMaxWidth()
             .padding(start = 10.dp, top = 10.dp)){
         Box(
-            Modifier.padding(start = 5.dp, end = 5.dp)
+            Modifier.padding(start = 30.dp, end = 30.dp , top = 5.dp)
         ) {
             item.imageUri?.let {
                 ExpandableCard(navController, address = item.Address.toString(),item.price.toString(),title = item.name.toString(),
-                    description =item.description.toString(), category = item.category.toString(), image = it.toString()
+                    description =item.description.toString(), category = item.category.toString(), image = it
                 )
             }
 

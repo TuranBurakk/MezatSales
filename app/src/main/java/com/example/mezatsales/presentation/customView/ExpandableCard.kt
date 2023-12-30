@@ -8,11 +8,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -79,7 +76,7 @@ fun ExpandableCard(
                     easing = LinearOutSlowInEasing
                 )
             )
-            .fillMaxWidth()
+
             ,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondary
@@ -104,26 +101,23 @@ fun ExpandableCard(
 
                 GlideImage(model = image,
                         contentDescription ="image",
-                    modifier = Modifier.fillMaxWidth())
+                    modifier = Modifier.fillMaxWidth().padding(top = 10.dp))
 
-
+            Text(
+                modifier = Modifier.align(CenterHorizontally).padding(top = 4.dp),
+                text = title,
+                fontSize = titleFontSize,
+                fontWeight = titleFontWeight,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.onSurface
+            )
             Text(text = getBoldText(text = R.string.Price, text2 = lastPrice ),
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.align(CenterHorizontally))
-            Text(text = stringResource(id = R.string.Address,address),
+                        modifier = Modifier.align(CenterHorizontally).padding(top = 4.dp))
+            Text(text = getBoldText(text = R.string.Address, text2 = address),
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.align(CenterHorizontally))
-            Text(
-                        modifier = Modifier.align(CenterHorizontally),
-                        text = title,
-                        fontSize = titleFontSize,
-                        fontWeight = titleFontWeight,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colorScheme.onSurface
-            )
-
-
+                        modifier = Modifier.align(CenterHorizontally).padding(top = 4.dp))
 
 
                 Row(Modifier.padding(start = 5.dp)

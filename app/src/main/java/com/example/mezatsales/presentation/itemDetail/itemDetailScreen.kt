@@ -1,6 +1,5 @@
 package com.example.mezatsales.presentation.itemDetail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,14 +9,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.mezatsales.R
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mezatsales.data.ItemData
 import com.example.mezatsales.presentation.topBar.topBar
 
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun itemDetailScreen(navController: NavController,item:ItemData){
     Column(
@@ -26,7 +26,7 @@ fun itemDetailScreen(navController: NavController,item:ItemData){
             .background(MaterialTheme.colorScheme.background)
     ) {
         topBar(navController = navController)
-        Image(painter = painterResource(id = R.drawable.tesbih)
+        GlideImage(model = item.imageUri
             ,contentDescription ="item"
             , modifier = Modifier
                 .align(Alignment.CenterHorizontally)

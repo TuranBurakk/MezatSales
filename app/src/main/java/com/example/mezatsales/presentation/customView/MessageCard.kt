@@ -14,25 +14,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MessageCard(){
+fun MessageCard(userName:String,message:String?){
     Card(
         Modifier
             .fillMaxWidth()
             .height(40.dp)
             .background(MaterialTheme.colorScheme.background)) {
-            Text(text = "Burak",
+            Text(text = userName,
                  modifier = Modifier.padding(start = 5.dp),
                  fontWeight = FontWeight.Bold,
                  color = MaterialTheme.colorScheme.onSurface
             )
-            Text(text = "açıklama",
-                 modifier = Modifier.padding(start = 5.dp))
+        if (message != null) {
+            Text(text = message,
+                modifier = Modifier.padding(start = 5.dp))
+        }
     }
 }
 
 
-@Composable
-@Preview
-fun prevMessageCard(){
-    MessageCard()
-}
